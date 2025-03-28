@@ -1,4 +1,4 @@
-baseURL = 'https://planetesimals-2005.github.io/'
+baseURL = 'https://Planetesimals-2005.github.io/'
 title = '你所身处之地是温柔花海。'
 theme = 'hugo-theme-reimu'
 languageCode = 'zh-CN'

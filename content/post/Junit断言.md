@@ -5,9 +5,8 @@ date: 2025-03-28
 
  # JUnit 断言（Assertions）
  * 用途：通过比较实际结果与预期结果来判断测试是否通过，如果断言失败，测试会立即终止并抛出错误信息。
- 
- ![alt text](image.png)
 
+![JUnit断言示例图](static/JunitAssertion.png)
 
     //1. ​验证非空返回值
     @Test
