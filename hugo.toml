@@ -1,8 +1,8 @@
 baseURL = 'https://Planetesimals-2005.github.io/'
 title = '你所身处之地是温柔花海。'
 theme = 'hugo-theme-reimu'
-languageCode = 'zh-CN'
-defaultContentLanguage = 'zh-CN'
+languageCode = 'en'
+defaultContentLanguage = 'en'
 [languages]
 [languages.en]
 languageName = 'English'
