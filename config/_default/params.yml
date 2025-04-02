@@ -244,7 +244,7 @@ valine:
   appKey: # leancloud application app key
   pageSize: 10 # comment list page size
   avatar: mp # gravatar style https://valine.js.org/#/avatar
-  lang: zh-cn # i18n: zh-cn/en
+  lang: en # i18n: zh-cn/en
   placeholder: Just go go # valine comment input placeholder(like: Please leave your footprints )
   guest_info: nick,mail,link #valine comment header info
   recordIP: true # whether to record the IP address of the commenters

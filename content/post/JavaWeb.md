@@ -30,7 +30,7 @@ draft: false
   * **基于请求-响应模型**：客户端发起请求，服务器返回响应。
   * **可拓展**：通过 Headers 和 body 灵活传递数据。核心术语
 
- ### 请求与响应结构 
+### 请求与响应结构
 
 * 请求格式
 
@@ -100,11 +100,11 @@ draft: false
 
 ### **Servlet 运行流程**
 
-![image-20250401114634368](./JavaWeb.assets/image-20250401114634368.png)
+![image-20250401114634368](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png)
 
-![尚硅谷2023jw v066 2502](./JavaWeb.assets/QQ20250401-114007.png)
+![QQ20250401-114007](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png)
 
-![image-20250401114845361](./JavaWeb.assets/image-20250401114845361.png)
+![image-20250401114845361](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png)
 
 **详细步骤**
 
