@@ -110,11 +110,11 @@ draft: false
 
 ### **Servlet 运行流程**
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png" alt="image-20250401114634368" />
+![image-20250401114634368](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png)
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png" alt="QQ20250401-114007" />
+![QQ20250401-114007](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png)
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png" alt="image-20250401114845361" />
+![image-20250401114845361](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png)
 
 **详细步骤**
 
@@ -154,7 +154,7 @@ public class HelloServlet extends HttpServlet {
 
 #### HelloWorld
 
-1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png" alt="image-20250403160626030"  />
+1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。![image-20250403160626030](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png)
 
 2. 创建类之后，继承HttpServlet类，重写service方法
 
@@ -194,17 +194,17 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
 
 4. 在web.xml中，配置servlet对应的请求映射路径。
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png" alt="image-20250403163957786"  />
+   ![image-20250403163957786](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png)
 
 5. 在run-Run/Debug Configurations 中确认配置
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png" alt="image-20250403165623727"  />
+   ![image-20250403165623727](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png)
 
 6. 通过debug模式运行程序，输入username之后，发送请求，成功返回预设info
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png" alt="image-20250403170456511" />
+   ![image-20250403170456511](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png)
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png" alt="image-20250403170424895" />
+   ![image-20250403170424895](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png)
 
 #### Jar包导入
 
