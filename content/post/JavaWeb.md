@@ -110,11 +110,11 @@ draft: false
 
 ### **Servlet 运行流程**
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png" alt="image-20250401114634368" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png" alt="image-20250401114634368" />
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png" alt="QQ20250401-114007" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png" alt="QQ20250401-114007" />
 
-<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png" alt="image-20250401114845361" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png" alt="image-20250401114845361" />
 
 **详细步骤**
 
@@ -154,8 +154,7 @@ public class HelloServlet extends HttpServlet {
 
 #### HelloWorld
 
-1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。
-2. <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png" alt="image-20250403160626030" style="zoom:50%;" />
+1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png" alt="image-20250403160626030"  />
 
 2. 创建类之后，继承HttpServlet类，重写service方法
 
@@ -171,19 +170,41 @@ public class HelloServlet extends HttpServlet {
 
 ​    3.在service方法中定义业务处理代码。
 
+```java
+@Override
+protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    //1. 从request对象中获取请求中的任何信息（获取请求参数）
+    //根据参数名字获取参数值，不论是get请求还是post请求。
+    String username = request.getParameter("username");
+
+    //2. 处理请求（业务逻辑）
+    String info = "";
+    if("Planetesimals".equals(username)){
+        info = "Welcome, " + username;
+    }
+
+    //3. 响应结果（将结果放入response响应给浏览器）
+    //PrintWriter 返回的是一个向响应体中写入字符数据的打印流。
+    PrintWriter writer = response.getWriter();
+    writer.write(info);
+
+
+}
+```
+
 4. 在web.xml中，配置servlet对应的请求映射路径。
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png" alt="image-20250403163957786" style="zoom:50%;" />
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png" alt="image-20250403163957786"  />
 
 5. 在run-Run/Debug Configurations 中确认配置
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png" alt="image-20250403165623727" style="zoom:50%;" />
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png" alt="image-20250403165623727"  />
 
 6. 通过debug模式运行程序，输入username之后，发送请求，成功返回预设info
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png" alt="image-20250403170456511" style="zoom:33%;" />
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png" alt="image-20250403170456511" />
 
-   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png" alt="image-20250403170424895" style="zoom:50%;" />
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png" alt="image-20250403170424895" />
 
-    
+#### Jar包导入
 
