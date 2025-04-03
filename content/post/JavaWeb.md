@@ -6,6 +6,8 @@ draft: false
 
 # JavaWeb 学习笔记
 
+[跟学视频 尚硅谷 JavaWeb 2023-10-25](https://www.bilibili.com/video/BV1UN411x7xe/?spm_id_from=333.1387.upload.video_card.click)
+
 因个人偏好，暂时跳过 html css js 三件套。
 
 ## Tomcat
@@ -40,7 +42,15 @@ draft: false
   User-Agent: Mozilla/5.0
   Accept: text/html
   
-  [请求体]（POST 数据之类）
+  假设请求地址为http://127.0.0.1:8080//userservlet
+  请求内容为username = zhangsan
+  
+  Get直接将参数放入url: 
+  http://127.0.0.1:8080//userservlet?username=zhangsan
+  
+  Post会将参数放入请求体:
+  [请求体]
+  username = zhangsan
   ```
 
 * **常用请求方式**
@@ -100,11 +110,11 @@ draft: false
 
 ### **Servlet 运行流程**
 
-![image-20250401114634368](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png)
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114634368.png" alt="image-20250401114634368" style="zoom:50%;" />
 
-![QQ20250401-114007](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png)
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/QQ20250401-114007.png" alt="QQ20250401-114007" style="zoom:50%;" />
 
-![image-20250401114845361](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png)
+<img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250401114845361.png" alt="image-20250401114845361" style="zoom:50%;" />
 
 **详细步骤**
 
@@ -140,7 +150,40 @@ public class HelloServlet extends HttpServlet {
 }
 ```
 
+### 简单实操
 
+#### HelloWorld
 
+1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。
+2. <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png" alt="image-20250403160626030" style="zoom:50%;" />
 
+2. 创建类之后，继承HttpServlet类，重写service方法
+
+   ```java
+   public class UserServlet extends HttpServlet {
+   
+       @Override
+       protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+          //其他代码
+       }
+   }
+   ```
+
+​    3.在service方法中定义业务处理代码。
+
+4. 在web.xml中，配置servlet对应的请求映射路径。
+
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png" alt="image-20250403163957786" style="zoom:50%;" />
+
+5. 在run-Run/Debug Configurations 中确认配置
+
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png" alt="image-20250403165623727" style="zoom:50%;" />
+
+6. 通过debug模式运行程序，输入username之后，发送请求，成功返回预设info
+
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png" alt="image-20250403170456511" style="zoom:33%;" />
+
+   <img src="https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png" alt="image-20250403170424895" style="zoom:50%;" />
+
+    
 
