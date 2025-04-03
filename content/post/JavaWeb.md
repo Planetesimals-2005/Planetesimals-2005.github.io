@@ -182,7 +182,7 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
     if("Planetesimals".equals(username)){
         info = "Welcome, " + username;
     }
-
+	
     //3. 响应结果（将结果放入response响应给浏览器）
     //PrintWriter 返回的是一个向响应体中写入字符数据的打印流。
     PrintWriter writer = response.getWriter();
@@ -206,5 +206,54 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
 
    ![image-20250403170424895](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png)
 
-#### Jar包导入
+#### servlet-api.jar包导入
 
+* servlet-api.jar在编码时被需要，在运行时，服务器的环境中由服务软件（Tomcat）提供。
+
+#### Content-type
+
+`	Content-Type` 是 HTTP 协议中的一个头部字段，用于**指明传输数据的媒体类型（MIME 类型）和字符编码**，确保发送方和接收方能正确解析和处理数据。
+
+**语法**：`Content-Type: media-type; charset=character-set`
+
+##### 常见MIME类型
+
+| 类型 | 描述 |
+|------|------|
+| `text/html` | HTML文档 |
+| `text/plain` | 纯文本 |
+| `text/css` | CSS样式表 |
+| `text/javascript` | JS代码 |
+| `image/jpeg` | JPEG图像 |
+| `image/png` | PNG图像 |
+| `image/svg+xml` | SVG矢量图 |
+| `application/json` | JSON数据 |
+| `application/xml` | XML数据 |
+| `application/pdf` | PDF文档 |
+| `application/octet-stream` | 二进制流 |
+|`multipart/form-data`| 文件上传 |
+|`application/x-www-form-urlencoded`|表单数据|
+##### 主要作用
+
+1. **定义数据格式**
+   告诉客户端或服务器传输的数据类型，使其能选择正确的解析方式。
+
+2. **指定字符编码**
+   附加 `charset` 参数，确保文本内容正确解码，避免乱码。
+
+3. **指导数据解析**
+
+* **请求中**（ POST/PUT），服务器根据content-type解析请求体。
+
+- **响应中**，浏览器根据 `Content-Type` 决定如何渲染内容（显示图片或解析 HTML等）。
+
+4. **Content-type 设置方式**
+
+```java
+// 方式1：合并设置
+response.setContentType("text/html;charset=UTF-8");
+
+// 方式2：分开设置
+//不知道怎么写type可以去web.xml中搜索
+response.setContentType("text/html");
+response.setCharacterEncoding("UTF-8");
