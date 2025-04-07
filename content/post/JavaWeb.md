@@ -280,6 +280,8 @@ initParams = {
     @WebInitParam(name = "maxUsers", value = "100")
 },
 loadOnStartup = 1
+    //表示在tomcat启动时就加载这个servlet
+    //如果是默认值-1 则在第一次请求的时候加载
 )
 public class UserServlet extends HttpServlet {
     //下接 GET/POST 方法实现
@@ -385,3 +387,218 @@ public class AdminServlet extends HttpServlet {
 
 ### Servlet 生命周期
 
+**生命周期（Lifecycle）** 指一个对象或系统从 **创建、运行到销毁** 的完整过程。在软件中，生命周期管理用于控制资源的分配、使用和释放，确保程序高效稳定运行。
+
+* Servlet 的生命周期由 Servlet 容器（如 Tomcat、Jetty）管理，通常分为四个阶段。
+
+#### **实例化（Instantiation）**
+
+`（一般直接归类在初始化阶段，此处单独调出）`
+
+- **触发时机**：Servlet 容器（如 Tomcat）启动时，或首次收到针对该 Servlet 的请求时。
+
+- 行为：
+
+  - 容器通过 **默认构造函数**（无参构造方法）创建 Servlet 的实例。
+  - 每个 Servlet 类在容器中**只有一个实例**（单例模式），所有请求共享此实例。
+
+  - 实例化由容器自动完成，开发者无法直接干预。
+  - 如果需要在实例化时执行逻辑，需通过默认构造函数实现（但通常不推荐在此阶段操作资源）。
+
+#### **初始化（Initialization）**
+
+- **触发时机**：实例化完成后立即执行。
+
+- **核心方法**：`init(ServletConfig config)`。
+
+- 行为：
+
+  - 容器调用 `init` 方法，完成 Servlet 的初始化配置（如加载配置文件、建立数据库连接等）。
+  - `ServletConfig` 参数提供 Servlet 的配置信息（如 `web.xml` 或注解中的初始化参数）。
+
+  - 开发者可重写 `init` 方法，添加自定义初始化逻辑。
+  - 若初始化失败，容器会抛出 `ServletException` 并标记该 Servlet 为不可用。
+
+####  **请求处理（Service）**
+
+- **触发时机**：每次收到客户端请求时。
+
+- **核心方法**：`service(ServletRequest req, ServletResponse res)`。
+
+- 行为：
+
+  - 容器为每个请求创建一个新线程，并调用 `service` 方法。
+  - `service` 方法根据 HTTP 方法（GET、POST 等）分发到对应的 `doGet()`、`doPost()` 等方法。
+
+  - 开发者通常直接重写 `doGet()`、`doPost()` 等方法，而非 `service` 方法。
+
+#### **销毁（Destruction）**
+
+- **触发时机**：容器关闭或应用被卸载时。
+
+- **核心方法**：`destroy()`。
+
+- 行为：
+
+  - 容器调用 `destroy` 方法，释放 Servlet 占用的资源（如关闭数据库连接、清理缓存等）。
+  - 销毁后，Servlet 实例会被垃圾回收。
+
+  - 开发者可重写 `destroy` 方法，添加自定义清理逻辑。
+
+#### 示例代码
+
+```java
+
+//实例化：容器调用默认构造函数（开发者一般不重写）
+public ServiceLifeCycle() {
+    System.out.println("构造器被调用");
+}
+
+ // 初始化：开发者可重写 init()
+@Override
+public void init() throws ServletException {
+    System.out.println("初始化");
+}
+
+// 请求处理：开发者重写 doGet()或是service
+@Override
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+   System.out.println("处理 GET 请求");
+}
+
+// 销毁：开发者可重写 destroy()
+@Override
+public void destroy() {
+    System.out.println("销毁");
+}
+```
+
+#### 横向对比
+
+|     阶段     |       触发时机       |         开发者控制权          |      典型用途      |
+| :----------: | :------------------: | :---------------------------: | :----------------: |
+|  **实例化**  | 容器启动或首次请求时 |    无（依赖默认构造函数）     |    创建单例实例    |
+|  **初始化**  |     实例化完成后     |         重写 `init()`         | 加载资源、配置参数 |
+| **请求处理** |       每次请求       | 重写 `doGet()`、`doPost()` 等 |    处理业务逻辑    |
+|   **销毁**   |  容器关闭或应用卸载  |       重写 `destroy()`        |      释放资源      |
+
+### Default-Servlet
+
+**核心作用：**
+
+1. **处理静态资源**
+   - 当请求路径对应到 Web 应用的静态文件时，Default Servlet 负责读取文件并返回内容。
+   - 例如：直接访问 `http://localhost:8080/index.html`，实际由 Default Servlet 处理。
+2. **兜底请求处理**
+   - 如果请求路径未匹配任何自定义 Servlet 的 URL 模式（`urlPatterns`），则由 Default Servlet 处理。
+   - 例如：访问 `http://localhost:8080/unknown-path`，可能返回 404 错误（由 Default Servlet 抛出）。
+3. **目录列表展示（可选）**
+   - 某些容器允许配置 Default Servlet 显示目录中的文件列表（类似 FTP 目录浏览），但默认通常禁用。
+
+
+
+### Servlet 继承结构
+
+#### Servlet接口
+
+- **核心方法:**
+
+  ```java
+  void init(ServletConfig config);     // 初始化
+  void service(ServletRequest req, ServletResponse res); // 处理请求
+  void destroy();                      // 销毁
+  ServletConfig getServletConfig();    // 获取配置
+  String getServletInfo();             // 返回描述信息
+  ```
+
+ - **作用**: 定义 Servlet 的**基本生命周期方法**，所有 Servlet 必须实现此接口。
+
+- ```java
+  public interface Servlet {
+  //初始化方法，构造完毕后，由tomcat自动调用完成初始化功能的方法
+  void init(ServletConfig var1) throws ServletException;
+  //获得ServletConfig对象的方法
+  ServletConfig getServletConfig();
+  //接收用户请求，向用于响应信息的方法
+  void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
+  //返回Servlet字符串形式描述信息的方法
+  String getServletInfo();
+  //Servlet在回收前。由tomcat调用的销毁方法，往往用于做资源的释放工作
+  void destroy();
+  }
+  ```
+
+####  **GenericServlet 抽象类**
+
+- **继承关系**: 实现 `Servlet` 接口，并部分实现其方法。
+- 核心改进:
+  - 提供 `ServletConfig` 的默认实现，简化 `init()` 方法的使用。
+  - 添加 `log()` 方法，支持日志记录。
+    - **协议无关性**：适用于非 HTTP 协议（如 FTP），但实际极少使用。
+
+*  
+
+  ```java
+  public abstract class GenericServlet implements Servlet{
+      private transient ServletConfig config;
+      @Override
+      public void destroy() {
+          //将抽象方法重写为普通方法，在方法内部没有任何实现的代码,称之为平庸实现。
+      }
+      @Override
+      public void init(ServletConfig config) throws ServletException {
+          //tomcat 在调用init方法时会读取配置信息进入一个ServletConfig对象并将该对象传入init方法
+          //将config对象存储为当前属性
+          this.config = config;
+          //调用重载的无参init方法
+          this.init();
+      }
+      public void init() throws ServletException {
+          //无参init方法
+      }
+      @Override
+      public ServletConfig getServletConfig() {
+          //返回config对象
+          return config;
+      }
+      public abstract void service(ServletRequest req, ServletResponse res) throws ServletException, IOException;
+      //再次抽象声明service方法
+  }
+  ```
+
+  
+
+#### **HttpServlet类**
+
+- **继承关系**: 继承 `GenericServlet`，专为 HTTP 协议设计。
+
+- 核心方法：
+
+  ```java
+  protected void doGet(HttpServletRequest req, HttpServletResponse resp);  // 处理 GET 请求
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp); // 处理 POST 请求
+  // 其他方法：doPut(), doDelete(), doHead(), 等
+  ```
+
+
+- 关键逻辑:
+  - 覆盖 `service()` 方法，根据 HTTP 方法（GET/POST 等）分发到对应的 `doXxx()` 方法。
+  - 默认返回 405 错误（若未实现特定 HTTP 方法的处理逻辑）。
+
+#### **关键类的职责对比**
+
+|      类/接口       |                             职责                             |
+| :----------------: | :----------------------------------------------------------: |
+|    **Servlet**     | 定义生命周期方法（`init`, `service`, `destroy`），与协议无关。 |
+| **GenericServlet** | 提供基础实现（如日志、`ServletConfig` 管理），仍与协议无关。 |
+|  **HttpServlet**   | 扩展 HTTP 协议支持，封装 `HttpServletRequest` 和 `HttpServletResponse`。 |
+
+#### **为什么通常继承 HttpServlet？**
+
+1. **HTTP 专用优化**：
+  - 直接处理 HTTP 请求，无需解析原始协议数据。
+   - 提供 `doGet()`, `doPost()` 等便捷方法。
+2. **避免重复造轮子**：
+  - `HttpServlet` 已实现 HTTP 方法分发逻辑（`service()` 方法），开发者只需关注业务代码。
+3. **规范性与兼容性**：
+  - 遵循 Servlet 规范，适配所有主流 Web 容器（如 Tomcat、Jetty）。
