@@ -187,8 +187,6 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
     //PrintWriter 返回的是一个向响应体中写入字符数据的打印流。
     PrintWriter writer = response.getWriter();
     writer.write(info);
-
-
 }
 ```
 
@@ -257,3 +255,133 @@ response.setContentType("text/html;charset=UTF-8");
 //不知道怎么写type可以去web.xml中搜索
 response.setContentType("text/html");
 response.setCharacterEncoding("UTF-8");
+```
+
+### Servlet 注解
+
+#### @webservlet
+
+**作用：**用于声明一个 Servlet 类，并配置其 URL 映射和初始化参数（替代 `web.xml` 中的 `<servlet>` 和 `<servlet-mapping>`）。
+
+ **核心参数**
+
+|           参数           |       类型       | 默认值  |                        说明                        |
+| :----------------------: | :--------------: | :-----: | :------------------------------------------------: |
+| `urlPatterns` 或 `value` |    `String[]`    |   无    | **必填**，URL 匹配规则（如 `"/user"`, `"/api/*"`） |
+|          `name`          |     `String`     |  类名   |               Servlet 名称（可省略）               |
+|     `loadOnStartup`      |      `int`       |  `-1`   |          启动顺序（≥0 时容器启动即加载）           |
+|       `initParams`       | `WebInitParam[]` |   无    |         初始化参数（`@WebInitParam` 注解）         |
+|     `asyncSupported`     |    `boolean`     | `false` |                  是否支持异步处理                  |
+
+```java
+@WebServlet(
+urlPatterns = "/user",
+initParams = {
+    @WebInitParam(name = "maxUsers", value = "100")
+},
+loadOnStartup = 1
+)
+public class UserServlet extends HttpServlet {
+    //下接 GET/POST 方法实现
+}
+```
+#### **@WebFilter**
+
+**作用:**声明过滤器，拦截指定请求（替代 `web.xml` 中的 `<filter>` 和 `<filter-mapping>`）。
+
+**核心参数**
+
+|       参数        |        类型        |  默认值   |                             说明                             |
+| :---------------: | :----------------: | :-------: | :----------------------------------------------------------: |
+|   `urlPatterns`   |     `String[]`     |    无     |                   按 URL 匹配（如 `"/*"`）                   |
+|  `servletNames`   |     `String[]`     |    无     |                     按 Servlet 名称匹配                      |
+| `dispatcherTypes` | `DispatcherType[]` | `REQUEST` | 过滤的请求类型（`REQUEST`, `FORWARD`, `INCLUDE`, `ERROR`, `ASYNC`） |
+
+```java
+@WebFilter(
+urlPatterns = "/*",
+dispatcherTypes = { DispatcherType.REQUEST, DispatcherType.FORWARD }
+)
+public class LogFilter implements Filter {
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
+        System.out.println("Request URL: " + ((HttpServletRequest) req).getRequestURI());
+        chain.doFilter(req, res); // 放行请求
+    }
+}
+```
+#### **@WebListener**
+
+**作用：**声明监听器，监听 Servlet 上下文、会话或请求的生命周期事件（替代 `web.xml` 中的 `<listener>`）。
+
+**使用方式**
+
+- 直接标记在实现了特定接口的类上（如 `ServletContextListener`, `HttpSessionListener`）。
+- **无需参数**，由接口类型自动识别监听目标。
+
+```java
+@WebListener
+public class AppLifecycleListener implements ServletContextListener {
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+        System.out.println("应用启动: 加载初始配置");
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("应用关闭: 释放资源");
+    }
+}
+```
+
+#### **@MultipartConfig**
+
+ **作用**
+
+标记 Servlet 支持文件上传，需配合 `HttpServletRequest#getPart()` 使用。
+
+ **核心参数**
+
+|        参数         |   类型   | 默认值 |                说明                |
+| :-----------------: | :------: | :----: | :--------------------------------: |
+|     `location`      | `String` |   空   |       上传文件的临时存储路径       |
+|    `maxFileSize`    |  `long`  |  `-1`  |      单个文件最大大小（字节）      |
+|  `maxRequestSize`   |  `long`  |  `-1`  |      整个请求最大大小（字节）      |
+| `fileSizeThreshold` |  `int`   |  `0`   | 文件大小超过阈值时写入磁盘（字节） |
+
+```java
+@WebServlet("/upload")
+@MultipartConfig(
+    maxFileSize = 1024 * 1024 * 10, // 10MB
+    maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
+public class FileUploadServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) {
+        Part filePart = req.getPart("file");
+        filePart.write("/data/uploads/" + filePart.getSubmittedFileName());
+    }
+}
+```
+
+#### **@ServletSecurity**
+
+**作用**：定义 Servlet 的访问控制规则（如角色、HTTP 方法约束）。
+
+常与 `@HttpConstraint` 和 `@HttpMethodConstraint` 配合使用。
+
+```java
+@WebServlet("/admin")
+@ServletSecurity(
+    @HttpConstraint(rolesAllowed = "ADMIN"),
+    httpMethodConstraints = {
+        @HttpMethodConstraint(value = "GET", rolesAllowed = "USER")
+    }
+)
+public class AdminServlet extends HttpServlet { 
+	//下接具体的实现代码
+}
+```
+
+### Servlet 生命周期
+
