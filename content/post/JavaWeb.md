@@ -765,7 +765,7 @@ String url = contextPath + "/api/data";
 
 **使用方式**
 
-![image-20250408125338905](./JavaWeb.assets/image-20250408125338905.png)
+![image-20250408125338905](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408125338905.png)
 
 * 获取请求行信息相关API(方式,请求的url,协议及版本)
 
