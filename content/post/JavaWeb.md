@@ -593,12 +593,166 @@ public void destroy() {
 | **GenericServlet** | 提供基础实现（如日志、`ServletConfig` 管理），仍与协议无关。 |
 |  **HttpServlet**   | 扩展 HTTP 协议支持，封装 `HttpServletRequest` 和 `HttpServletResponse`。 |
 
-#### **为什么通常继承 HttpServlet？**
+### 自定义Servlet
 
-1. **HTTP 专用优化**：
-  - 直接处理 HTTP 请求，无需解析原始协议数据。
-   - 提供 `doGet()`, `doPost()` 等便捷方法。
-2. **避免重复造轮子**：
-  - `HttpServlet` 已实现 HTTP 方法分发逻辑（`service()` 方法），开发者只需关注业务代码。
-3. **规范性与兼容性**：
-  - 遵循 Servlet 规范，适配所有主流 Web 容器（如 Tomcat、Jetty）。
+> 继承关系图解
+
+![](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/1682299663047.png)
+
++ 自定义Servlet中,必须要对处理请求的方法进行重写
+  + 要么重写service方法
+  + 要么重写doGet/doPost方法
+
+### ServletConfig和ServletContext
+
+#### **ServletConfig**
+
++ ServletConfig是Servlet提供初始配置参数的一种对象,用于在 **Servlet 初始化阶段**向其传递配置信息。
++ 容器会为每个Servlet实例化一个ServletConfig对象,并通过Servlet生命周期的init方法传入给Servlet作为属性
+
+![](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/1682302307081.png)
+
+ **ServletConfig是一个接口,定义了如下API**
+
+```java
+package jakarta.servlet;
+import java.util.Enumeration;
+public interface ServletConfig {
+    String getServletName();
+    ServletContext getServletContext();
+    String getInitParameter(String var1);
+    Enumeration<String> getInitParameterNames();
+}
+```
+
+| 方法名                  | 作用                                                         |
+| ----------------------- | ------------------------------------------------------------ |
+| getServletName()        | 获取\<servlet-name>HelloServlet\</servlet-name>定义的Servlet名称 |
+| getServletContext()     | 获取ServletContext对象                                       |
+| getInitParameter()      | 获取配置Servlet时设置的『初始化参数』，根据名字获取值        |
+| getInitParameterNames() | 获取所有初始化参数名组成的Enumeration对象                    |
+
+##### **核心作用**
+
+- **传递初始化参数**：为特定 Servlet 配置键值对参数（如数据库 URL、文件路径）。
+- **提供 Servlet 上下文引用**：通过 `getServletContext()` 方法访问全局应用信息。
+- **获取 Servlet 名称**：通过 `getServletName()` 获取 Servlet 在 `web.xml` 或注解中定义的名称。
+
+#### ServletContext
+
+ **ServletContext是什么**
+
++ ServletContext对象有称呼为上下文对象,或者叫应用域对象(后面统一讲解域对象)
++ 容器会为每个app创建一个独立的唯一的ServletContext对象
++ ServletContext对象为所有的Servlet所共享
++ ServletContext可以为所有的Servlet提供初始配置参数
+
+![image-20250408100843512](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408100843512.png)
+
+**使用方法**
+
+> 在web.xml中配置
+
+```xml
+<context-param>
+    <param-name>paramA</param-name>
+    <param-value>valueA</param-value>
+</context-param>
+<context-param>
+    <param-name>paramB</param-name>
+    <param-value>valueB</param-value>
+</context-param>
+```
+
+> **在servlet中获取ServletContext并获取参数**
+
+```java
+public class ServletA extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       
+        // 从ServletContext中获取为所有的Servlet准备的参数
+        //若将所有context换为config，则获取ServletConfig的参数
+        //ServletConfig servletConfig = this.getServletConfig();
+        ServletContext servletContext = this.getServletContext();
+        String valueA = servletContext.getInitParameter("paramA");
+        System.out.println("paramA:"+valueA);
+        // 获取所有参数名
+        Enumeration<String> initParameterNames = servletContext.getInitParameterNames();
+        // 迭代并获取参数名
+        while (initParameterNames.hasMoreElements()) {
+            String paramaterName = initParameterNames.nextElement();
+            System.out.println(paramaterName+":"+servletContext.getInitParameter(paramaterName));
+        }
+    }
+}
+```
+
+### ServletContext其他重要API
+
+#### getRealPath
+
+**作用：**用于将**虚拟路径**转换为服务器文件系统上的**真实物理路径**。
+
+**参数与返回值**
+
+- **参数**：以 `/` 开头的虚拟路径（相对于 Web 应用根目录，如 `/WEB-INF/config.xml`）。
+- **返回值**：物理路径字符串（如 `/opt/tomcat/webapps/app/WEB-INF/config.xml`），路径不存在返回 `null`。
+
+**使用场景**
+
+- 读取 Web 应用内部的配置文件或静态资源。
+- 处理文件上传时获取上传目录的真实路径。
+
+```java
+String realPath = getServletContext().getRealPath("/WEB-INF/data.txt");
+File file = new File(realPath);
+if (file.exists()) {
+    // 读取文件内容
+}
+```
+
+#### getContextPath
+
+用于获取当前 **Web 应用的上下文路径（Context Path）**，即应用部署时的根路径。
+
+**返回值**
+
+- 非根部署：`/yourapp`。
+- 根部署：空字符串 `""`（ ROOT 应用或 Spring Boot 默认）。
+
+**使用场景**
+
+- 动态生成绝对 URL 路径，避免硬编码。
+- 重定向时确保路径正确性。
+
+```java
+// 在 Servlet 中生成链接
+String link = "<a href='" + request.getContextPath() + "/user/profile'>Profile</a>";
+
+// 重定向到登录页
+response.sendRedirect(request.getContextPath() + "/login");
+```
+
+```java
+//路径拼接：直接拼接上下文路径和子路径，无需手动添加/
+String url = contextPath + "/api/data"; 
+```
+
+#### 域对象的相关API
+
+**域对象: **是一组用于在不同作用域内**存储和共享数据**的容器。它们允许你在应用的特定范围内（单个请求、用户会话或整个应用）传递数据，无需手动管理数据生命周期。
+
+| API                                         | 功能解释            |
+| ------------------------------------------- | ------------------- |
+| void setAttribute(String key,Object value); | 向域中存储/修改数据 |
+| Object getAttribute(String key);            | 获得域中的数据      |
+| void removeAttribute(String key);           | 移除域中的数据      |
+
+| 域对象                       | **作用域**         | **作用**         | **典型场景**             |
+| ---------------------------- | ------------------ | ---------------- | ------------------------ |
+| `ServletContext`（应用域）   | 整个 Web 应用      | 全局共享数据     | 数据库连接池、全局计数器 |
+| `HttpServletRequest`(请求域) | 单个HTTP请求内有效 | 请求内数据传递   | 转发数据到 JSP           |
+| `HttpSession`（会话域）      | 同一用户的多次请求 | 用户会话数据存储 | 登录状态、购物车         |
+
+### HttpServletRequest
