@@ -756,3 +756,108 @@ String url = contextPath + "/api/data";
 | `HttpSession`（会话域）      | 同一用户的多次请求 | 用户会话数据存储 | 登录状态、购物车         |
 
 ### HttpServletRequest
+
+**HttpServletResponse是什么**
+
++ HttpServletResponse是一个接口,其父接口是ServletResponse
++ HttpServletResponse是Tomcat预先创建的,在Tomcat调用service方法时传入
++ HttpServletResponse代表对客户端的响应,该对象会被转换成响应的报文发送给客户端,开发者可以通过该对象设置响应信息
+
+**使用方式**
+
+![image-20250408125338905](./JavaWeb.assets/image-20250408125338905.png)
+
+* 获取请求行信息相关API(方式,请求的url,协议及版本)
+
+| API                           | 功能解释                       |
+| ----------------------------- | ------------------------------ |
+| StringBuffer getRequestURL(); | 获取客户端请求的url            |
+| String getRequestURI();       | 获取客户端请求项目中的具体资源 |
+| int getServerPort();          | 获取客户端发送请求时的端口     |
+| int getLocalPort();           | 获取本应用在所在容器的端口     |
+| int getRemotePort();          | 获取客户端程序的端口           |
+| String getScheme();           | 获取请求协议                   |
+| String getProtocol();         | 获取请求协议及版本号           |
+| String getMethod();           | 获取请求方式                   |
+
++ 获得请求头信息相关API
+
+| API                                   | 功能解释               |
+| ------------------------------------- | ---------------------- |
+| String getHeader(String headerName);  | 根据头名称获取请求头   |
+| Enumeration<String> getHeaderNames(); | 获取所有的请求头名字   |
+| String getContentType();              | 获取content-type请求头 |
+
++ 获得请求参数相关
+
+| API                                                     | 功能解释                             |
+| ------------------------------------------------------- | ------------------------------------ |
+| String getParameter(String parameterName);              | 根据请求参数名获取请求单个参数值     |
+| String[] getParameterValues(String parameterName);      | 根据请求参数名获取请求多个参数值数组 |
+| Enumeration<String> getParameterNames();                | 获取所有请求参数名                   |
+| Map<String, String[]> getParameterMap();                | 获取所有请求参数的键值对集合         |
+| BufferedReader getReader() throws IOException;          | 获取读取请求体的字符输入流           |
+| ServletInputStream getInputStream() throws IOException; | 获取读取请求体的字节输入流           |
+| int getContentLength();                                 | 获得请求体长度的字节数               |
+
++ 其他API
+
+| API                                          | 功能解释                    |
+| -------------------------------------------- | --------------------------- |
+| String getServletPath();                     | 获取请求的Servlet的映射路径 |
+| ServletContext getServletContext();          | 获取ServletContext对象      |
+| Cookie[] getCookies();                       | 获取请求中的所有cookie      |
+| HttpSession getSession();                    | 获取Session对象             |
+| void setCharacterEncoding(String encoding) ; | 设置请求体字符集            |
+
+
+
+### HttpServletResponse
+
+**HttpServletResponse是什么**
+
++ HttpServletResponse是一个接口,其父接口是ServletResponse
++ HttpServletResponse是Tomcat预先创建的,在Tomcat调用service方法时传入
++ HttpServletResponse代表对客户端的响应,该对象会被转换成响应的报文发送给客户端,开发者可以通过该对象设置响应信息。
+
+![image-20250408143926986](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408143926986.png)
+
+* 响应相关API
+
+| API                                                       | 功能解释                                                |
+| --------------------------------------------------------- | ------------------------------------------------------- |
+| void setStatus(int  code);                                | 设置响应状态码                                          |
+| void setHeader(String headerName, String headerValue);    | 设置/修改响应头键值对                                   |
+| void setContentType(String contentType);                  | 设置content-type响应头及响应字符集(设置MIME类型)        |
+| PrintWriter getWriter() throws IOException;               | 获得向响应体放入信息的字符输出流                        |
+| ServletOutputStream getOutputStream() throws IOException; | 获得向响应体放入信息的字节输出流                        |
+| void setContentLength(int length);                        | 设置响应体的字节长度,其实就是在设置content-length响应头 |
+
++ 其他API
+
+| API                                                          | 功能解释                                            |
+| ------------------------------------------------------------ | --------------------------------------------------- |
+| void sendError(int code, String message) throws IOException; | 向客户端响应错误信息的方法,需要指定响应码和响应信息 |
+| void addCookie(Cookie cookie);                               | 向响应体中增加cookie                                |
+| void setCharacterEncoding(String encoding);                  | 设置响应体字符集                                    |
+
+### MIME类型
+
++ MIME类型,可以理解为文档类型,用户表示传递的数据是属于什么类型的文档
++ 浏览器可以根据MIME类型决定该用什么样的方式解析接收到的响应体数据
++ 可以这样理解: 前后端交互数据时,告诉对方发给对方的是 html/css/js/图片/声音/视频/... ...
++ tomcat/conf/web.xml中配置了常见文件的拓展名和MIMIE类型的对应关系
++ 常见的MIME类型举例如下
+
+| 文件拓展名                  | MIME类型               |
+| --------------------------- | ---------------------- |
+| .html                       | text/html              |
+| .css                        | text/css               |
+| .js                         | application/javascript |
+| .png /.jpeg/.jpg/... ...    | image/jpeg             |
+| .mp3/.mpe/.mpeg/ ... ...    | audio/mpeg             |
+| .mp4                        | video/mp4              |
+| .m1v/.m1v/.m2v/.mpe/... ... | video/mpeg             |
+
+## 请求转发和响应重定向
+
