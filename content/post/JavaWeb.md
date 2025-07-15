@@ -1,6 +1,6 @@
 ---
 title: JavaWeb学习笔记
-date: 2025-04-01
+date: 2025-07-15
 draft: false
 ---
 
@@ -89,7 +89,7 @@ draft: false
 
 #### **定义**
 
-- **Servlet** 是 Java 编写的**服务器端程序**，用于处理客户端的 HTTP 请求并生成动态响应。
+- **Servlet** 是 Java 编写的 **服务器端程序**，用于处理客户端的 HTTP 请求并生成动态响应。
 - 运行在 **Servlet 容器**（如 Tomcat、Jetty）中，容器负责管理其生命周期和网络通信。
 
 #### **核心作用**
@@ -154,9 +154,9 @@ public class HelloServlet extends HttpServlet {
 
 #### HelloWorld
 
-1. 创建一个项目，然后在project structure中把Tomcat添加为依赖。![image-20250403160626030](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png)
+1. 创建一个项目，然后在 project structure 中把 Tomcat 添加为依赖。![image-20250403160626030](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403160626030.png)
 
-2. 创建类之后，继承HttpServlet类，重写service方法
+2. 创建类之后，继承 HttpServlet 类，重写 service 方法
 
    ```java
    public class UserServlet extends HttpServlet {
@@ -168,7 +168,7 @@ public class HelloServlet extends HttpServlet {
    }
    ```
 
-​    3.在service方法中定义业务处理代码。
+​    3.在 service 方法中定义业务处理代码。
 
 ```java
 @Override
@@ -190,44 +190,44 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
 }
 ```
 
-4. 在web.xml中，配置servlet对应的请求映射路径。
+4. 在 web.xml 中，配置 servlet 对应的请求映射路径。
 
    ![image-20250403163957786](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403163957786.png)
 
-5. 在run-Run/Debug Configurations 中确认配置
+5. 在 run-Run/Debug Configurations 中确认配置
 
    ![image-20250403165623727](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403165623727.png)
 
-6. 通过debug模式运行程序，输入username之后，发送请求，成功返回预设info
+6. 通过 debug 模式运行程序，输入 username 之后，发送请求，成功返回预设 info
 
    ![image-20250403170456511](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170456511.png)
 
    ![image-20250403170424895](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250403170424895.png)
 
-#### servlet-api.jar包导入
+#### servlet-api.jar 包导入
 
-* servlet-api.jar在编码时被需要，在运行时，服务器的环境中由服务软件（Tomcat）提供。
+* servlet-api.jar 在编码时被需要，在运行时，服务器的环境中由服务软件（Tomcat）提供。
 
 #### Content-type
 
-`	Content-Type` 是 HTTP 协议中的一个头部字段，用于**指明传输数据的媒体类型（MIME 类型）和字符编码**，确保发送方和接收方能正确解析和处理数据。
+`	Content-Type` 是 HTTP 协议中的一个头部字段，用于 **指明传输数据的媒体类型（MIME 类型）和字符编码**，确保发送方和接收方能正确解析和处理数据。
 
 **语法**：`Content-Type: media-type; charset=character-set`
 
-##### 常见MIME类型
+##### 常见 MIME 类型
 
 | 类型 | 描述 |
 |------|------|
-| `text/html` | HTML文档 |
+| `text/html` | HTML 文档 |
 | `text/plain` | 纯文本 |
-| `text/css` | CSS样式表 |
-| `text/javascript` | JS代码 |
-| `image/jpeg` | JPEG图像 |
-| `image/png` | PNG图像 |
-| `image/svg+xml` | SVG矢量图 |
-| `application/json` | JSON数据 |
-| `application/xml` | XML数据 |
-| `application/pdf` | PDF文档 |
+| `text/css` | CSS 样式表 |
+| `text/javascript` | JS 代码 |
+| `image/jpeg` | JPEG 图像 |
+| `image/png` | PNG 图像 |
+| `image/svg+xml` | SVG 矢量图 |
+| `application/json` | JSON 数据 |
+| `application/xml` | XML 数据 |
+| `application/pdf` | PDF 文档 |
 | `application/octet-stream` | 二进制流 |
 |`multipart/form-data`| 文件上传 |
 |`application/x-www-form-urlencoded`|表单数据|
@@ -241,9 +241,9 @@ protected void service(HttpServletRequest request, HttpServletResponse response)
 
 3. **指导数据解析**
 
-* **请求中**（ POST/PUT），服务器根据content-type解析请求体。
+* **请求中**（ POST/PUT），服务器根据 content-type 解析请求体。
 
-- **响应中**，浏览器根据 `Content-Type` 决定如何渲染内容（显示图片或解析 HTML等）。
+- **响应中**，浏览器根据 `Content-Type` 决定如何渲染内容（显示图片或解析 HTML 等）。
 
 4. **Content-type 设置方式**
 
@@ -261,7 +261,7 @@ response.setCharacterEncoding("UTF-8");
 
 #### @webservlet
 
-**作用：**用于声明一个 Servlet 类，并配置其 URL 映射和初始化参数（替代 `web.xml` 中的 `<servlet>` 和 `<servlet-mapping>`）。
+**作用：** 用于声明一个 Servlet 类，并配置其 URL 映射和初始化参数（替代 `web.xml` 中的 `<servlet>` 和 `<servlet-mapping>`）。
 
  **核心参数**
 
@@ -289,7 +289,7 @@ public class UserServlet extends HttpServlet {
 ```
 #### **@WebFilter**
 
-**作用:**声明过滤器，拦截指定请求（替代 `web.xml` 中的 `<filter>` 和 `<filter-mapping>`）。
+**作用:** 声明过滤器，拦截指定请求（替代 `web.xml` 中的 `<filter>` 和 `<filter-mapping>`）。
 
 **核心参数**
 
@@ -314,7 +314,7 @@ public class LogFilter implements Filter {
 ```
 #### **@WebListener**
 
-**作用：**声明监听器，监听 Servlet 上下文、会话或请求的生命周期事件（替代 `web.xml` 中的 `<listener>`）。
+**作用：** 声明监听器，监听 Servlet 上下文、会话或请求的生命周期事件（替代 `web.xml` 中的 `<listener>`）。
 
 **使用方式**
 
@@ -400,7 +400,7 @@ public class AdminServlet extends HttpServlet {
 - 行为：
 
   - 容器通过 **默认构造函数**（无参构造方法）创建 Servlet 的实例。
-  - 每个 Servlet 类在容器中**只有一个实例**（单例模式），所有请求共享此实例。
+  - 每个 Servlet 类在容器中 **只有一个实例**（单例模式），所有请求共享此实例。
 
   - 实例化由容器自动完成，开发者无法直接干预。
   - 如果需要在实例化时执行逻辑，需通过默认构造函数实现（但通常不推荐在此阶段操作资源）。
@@ -499,7 +499,7 @@ public void destroy() {
 
 ### Servlet 继承结构
 
-#### Servlet接口
+#### Servlet 接口
 
 - **核心方法:**
 
@@ -511,7 +511,7 @@ public void destroy() {
   String getServletInfo();             // 返回描述信息
   ```
 
- - **作用**: 定义 Servlet 的**基本生命周期方法**，所有 Servlet 必须实现此接口。
+ - **作用**: 定义 Servlet 的 **基本生命周期方法**，所有 Servlet 必须实现此接口。
 
 - ```java
   public interface Servlet {
@@ -568,7 +568,7 @@ public void destroy() {
 
   
 
-#### **HttpServlet类**
+#### **HttpServlet 类**
 
 - **继承关系**: 继承 `GenericServlet`，专为 HTTP 协议设计。
 
@@ -593,26 +593,26 @@ public void destroy() {
 | **GenericServlet** | 提供基础实现（如日志、`ServletConfig` 管理），仍与协议无关。 |
 |  **HttpServlet**   | 扩展 HTTP 协议支持，封装 `HttpServletRequest` 和 `HttpServletResponse`。 |
 
-### 自定义Servlet
+### 自定义 Servlet
 
 > 继承关系图解
 
 ![](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/1682299663047.png)
 
-+ 自定义Servlet中,必须要对处理请求的方法进行重写
-  + 要么重写service方法
-  + 要么重写doGet/doPost方法
++ 自定义 Servlet 中, 必须要对处理请求的方法进行重写
+  + 要么重写 service 方法
+  + 要么重写 doGet/doPost 方法
 
-### ServletConfig和ServletContext
+### ServletConfig 和 ServletContext
 
 #### **ServletConfig**
 
-+ ServletConfig是Servlet提供初始配置参数的一种对象,用于在 **Servlet 初始化阶段**向其传递配置信息。
-+ 容器会为每个Servlet实例化一个ServletConfig对象,并通过Servlet生命周期的init方法传入给Servlet作为属性
++ ServletConfig 是 Servlet 提供初始配置参数的一种对象, 用于在 **Servlet 初始化阶段** 向其传递配置信息。
++ 容器会为每个 Servlet 实例化一个 ServletConfig 对象, 并通过 Servlet 生命周期的 init 方法传入给 Servlet 作为属性
 
 ![](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/1682302307081.png)
 
- **ServletConfig是一个接口,定义了如下API**
+ **ServletConfig 是一个接口, 定义了如下 API**
 
 ```java
 package jakarta.servlet;
@@ -627,10 +627,10 @@ public interface ServletConfig {
 
 | 方法名                  | 作用                                                         |
 | ----------------------- | ------------------------------------------------------------ |
-| getServletName()        | 获取\<servlet-name>HelloServlet\</servlet-name>定义的Servlet名称 |
-| getServletContext()     | 获取ServletContext对象                                       |
-| getInitParameter()      | 获取配置Servlet时设置的『初始化参数』，根据名字获取值        |
-| getInitParameterNames() | 获取所有初始化参数名组成的Enumeration对象                    |
+| getServletName()        | 获取 \< servlet-name > HelloServlet \</servlet-name > 定义的 Servlet 名称 |
+| getServletContext()     | 获取 ServletContext 对象                                       |
+| getInitParameter()      | 获取配置 Servlet 时设置的『初始化参数』，根据名字获取值        |
+| getInitParameterNames() | 获取所有初始化参数名组成的 Enumeration 对象                    |
 
 ##### **核心作用**
 
@@ -640,18 +640,18 @@ public interface ServletConfig {
 
 #### ServletContext
 
- **ServletContext是什么**
+ **ServletContext 是什么**
 
-+ ServletContext对象有称呼为上下文对象,或者叫应用域对象(后面统一讲解域对象)
-+ 容器会为每个app创建一个独立的唯一的ServletContext对象
-+ ServletContext对象为所有的Servlet所共享
-+ ServletContext可以为所有的Servlet提供初始配置参数
++ ServletContext 对象有称呼为上下文对象, 或者叫应用域对象(后面统一讲解域对象)
++ 容器会为每个 app 创建一个独立的唯一的 ServletContext 对象
++ ServletContext 对象为所有的 Servlet 所共享
++ ServletContext 可以为所有的 Servlet 提供初始配置参数
 
 ![image-20250408100843512](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408100843512.png)
 
 **使用方法**
 
-> 在web.xml中配置
+> 在 web.xml 中配置
 
 ```xml
 <context-param>
@@ -664,7 +664,7 @@ public interface ServletConfig {
 </context-param>
 ```
 
-> **在servlet中获取ServletContext并获取参数**
+> **在 servlet 中获取 ServletContext 并获取参数**
 
 ```java
 public class ServletA extends HttpServlet {
@@ -688,11 +688,11 @@ public class ServletA extends HttpServlet {
 }
 ```
 
-### ServletContext其他重要API
+### ServletContext 其他重要 API
 
 #### getRealPath
 
-**作用：**用于将**虚拟路径**转换为服务器文件系统上的**真实物理路径**。
+**作用：** 用于将 **虚拟路径** 转换为服务器文件系统上的 **真实物理路径**。
 
 **参数与返回值**
 
@@ -739,39 +739,39 @@ response.sendRedirect(request.getContextPath() + "/login");
 String url = contextPath + "/api/data"; 
 ```
 
-#### 域对象的相关API
+#### 域对象的相关 API
 
-**域对象: **是一组用于在不同作用域内**存储和共享数据**的容器。它们允许你在应用的特定范围内（单个请求、用户会话或整个应用）传递数据，无需手动管理数据生命周期。
+**域对象: ** 是一组用于在不同作用域内 **存储和共享数据** 的容器。它们允许你在应用的特定范围内（单个请求、用户会话或整个应用）传递数据，无需手动管理数据生命周期。
 
 | API                                         | 功能解释            |
 | ------------------------------------------- | ------------------- |
-| void setAttribute(String key,Object value); | 向域中存储/修改数据 |
+| void setAttribute(String key, Object value); | 向域中存储/修改数据 |
 | Object getAttribute(String key);            | 获得域中的数据      |
 | void removeAttribute(String key);           | 移除域中的数据      |
 
 | 域对象                       | **作用域**         | **作用**         | **典型场景**             |
 | ---------------------------- | ------------------ | ---------------- | ------------------------ |
 | `ServletContext`（应用域）   | 整个 Web 应用      | 全局共享数据     | 数据库连接池、全局计数器 |
-| `HttpServletRequest`(请求域) | 单个HTTP请求内有效 | 请求内数据传递   | 转发数据到 JSP           |
+| `HttpServletRequest`(请求域) | 单个 HTTP 请求内有效 | 请求内数据传递   | 转发数据到 JSP           |
 | `HttpSession`（会话域）      | 同一用户的多次请求 | 用户会话数据存储 | 登录状态、购物车         |
 
 ### HttpServletRequest
 
-**HttpServletResponse是什么**
+**HttpServletResponse 是什么**
 
-+ HttpServletResponse是一个接口,其父接口是ServletResponse
-+ HttpServletResponse是Tomcat预先创建的,在Tomcat调用service方法时传入
-+ HttpServletResponse代表对客户端的响应,该对象会被转换成响应的报文发送给客户端,开发者可以通过该对象设置响应信息
++ HttpServletResponse 是一个接口, 其父接口是 ServletResponse
++ HttpServletResponse 是 Tomcat 预先创建的, 在 Tomcat 调用 service 方法时传入
++ HttpServletResponse 代表对客户端的响应, 该对象会被转换成响应的报文发送给客户端, 开发者可以通过该对象设置响应信息
 
 **使用方式**
 
 ![image-20250408125338905](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408125338905.png)
 
-* 获取请求行信息相关API(方式,请求的url,协议及版本)
+* 获取请求行信息相关 API(方式, 请求的 url, 协议及版本)
 
 | API                           | 功能解释                       |
 | ----------------------------- | ------------------------------ |
-| StringBuffer getRequestURL(); | 获取客户端请求的url            |
+| StringBuffer getRequestURL(); | 获取客户端请求的 url            |
 | String getRequestURI();       | 获取客户端请求项目中的具体资源 |
 | int getServerPort();          | 获取客户端发送请求时的端口     |
 | int getLocalPort();           | 获取本应用在所在容器的端口     |
@@ -780,76 +780,76 @@ String url = contextPath + "/api/data";
 | String getProtocol();         | 获取请求协议及版本号           |
 | String getMethod();           | 获取请求方式                   |
 
-+ 获得请求头信息相关API
++ 获得请求头信息相关 API
 
 | API                                   | 功能解释               |
 | ------------------------------------- | ---------------------- |
 | String getHeader(String headerName);  | 根据头名称获取请求头   |
-| Enumeration<String> getHeaderNames(); | 获取所有的请求头名字   |
-| String getContentType();              | 获取content-type请求头 |
+| Enumeration <String> getHeaderNames(); | 获取所有的请求头名字   |
+| String getContentType();              | 获取 content-type 请求头 |
 
 + 获得请求参数相关
 
 | API                                                     | 功能解释                             |
 | ------------------------------------------------------- | ------------------------------------ |
 | String getParameter(String parameterName);              | 根据请求参数名获取请求单个参数值     |
-| String[] getParameterValues(String parameterName);      | 根据请求参数名获取请求多个参数值数组 |
-| Enumeration<String> getParameterNames();                | 获取所有请求参数名                   |
-| Map<String, String[]> getParameterMap();                | 获取所有请求参数的键值对集合         |
+| String [] getParameterValues(String parameterName);      | 根据请求参数名获取请求多个参数值数组 |
+| Enumeration <String> getParameterNames();                | 获取所有请求参数名                   |
+| Map <String, String[]> getParameterMap();                | 获取所有请求参数的键值对集合         |
 | BufferedReader getReader() throws IOException;          | 获取读取请求体的字符输入流           |
 | ServletInputStream getInputStream() throws IOException; | 获取读取请求体的字节输入流           |
 | int getContentLength();                                 | 获得请求体长度的字节数               |
 
-+ 其他API
++ 其他 API
 
 | API                                          | 功能解释                    |
 | -------------------------------------------- | --------------------------- |
-| String getServletPath();                     | 获取请求的Servlet的映射路径 |
-| ServletContext getServletContext();          | 获取ServletContext对象      |
-| Cookie[] getCookies();                       | 获取请求中的所有cookie      |
-| HttpSession getSession();                    | 获取Session对象             |
+| String getServletPath();                     | 获取请求的 Servlet 的映射路径 |
+| ServletContext getServletContext();          | 获取 ServletContext 对象      |
+| Cookie [] getCookies();                       | 获取请求中的所有 cookie      |
+| HttpSession getSession();                    | 获取 Session 对象             |
 | void setCharacterEncoding(String encoding) ; | 设置请求体字符集            |
 
 
 
 ### HttpServletResponse
 
-**HttpServletResponse是什么**
+**HttpServletResponse 是什么**
 
-+ HttpServletResponse是一个接口,其父接口是ServletResponse
-+ HttpServletResponse是Tomcat预先创建的,在Tomcat调用service方法时传入
-+ HttpServletResponse代表对客户端的响应,该对象会被转换成响应的报文发送给客户端,开发者可以通过该对象设置响应信息。
++ HttpServletResponse 是一个接口, 其父接口是 ServletResponse
++ HttpServletResponse 是 Tomcat 预先创建的, 在 Tomcat 调用 service 方法时传入
++ HttpServletResponse 代表对客户端的响应, 该对象会被转换成响应的报文发送给客户端, 开发者可以通过该对象设置响应信息。
 
 ![image-20250408143926986](https://cdn.jsdelivr.net/gh/Planetesimals-2005/BlogImg/img/image-20250408143926986.png)
 
-* 响应相关API
+* 响应相关 API
 
 | API                                                       | 功能解释                                                |
 | --------------------------------------------------------- | ------------------------------------------------------- |
 | void setStatus(int  code);                                | 设置响应状态码                                          |
 | void setHeader(String headerName, String headerValue);    | 设置/修改响应头键值对                                   |
-| void setContentType(String contentType);                  | 设置content-type响应头及响应字符集(设置MIME类型)        |
+| void setContentType(String contentType);                  | 设置 content-type 响应头及响应字符集(设置 MIME 类型)        |
 | PrintWriter getWriter() throws IOException;               | 获得向响应体放入信息的字符输出流                        |
 | ServletOutputStream getOutputStream() throws IOException; | 获得向响应体放入信息的字节输出流                        |
-| void setContentLength(int length);                        | 设置响应体的字节长度,其实就是在设置content-length响应头 |
+| void setContentLength(int length);                        | 设置响应体的字节长度, 其实就是在设置 content-length 响应头 |
 
-+ 其他API
++ 其他 API
 
 | API                                                          | 功能解释                                            |
 | ------------------------------------------------------------ | --------------------------------------------------- |
-| void sendError(int code, String message) throws IOException; | 向客户端响应错误信息的方法,需要指定响应码和响应信息 |
-| void addCookie(Cookie cookie);                               | 向响应体中增加cookie                                |
+| void sendError(int code, String message) throws IOException; | 向客户端响应错误信息的方法, 需要指定响应码和响应信息 |
+| void addCookie(Cookie cookie);                               | 向响应体中增加 cookie                                |
 | void setCharacterEncoding(String encoding);                  | 设置响应体字符集                                    |
 
-### MIME类型
+### MIME 类型
 
-+ MIME类型,可以理解为文档类型,用户表示传递的数据是属于什么类型的文档
-+ 浏览器可以根据MIME类型决定该用什么样的方式解析接收到的响应体数据
-+ 可以这样理解: 前后端交互数据时,告诉对方发给对方的是 html/css/js/图片/声音/视频/... ...
-+ tomcat/conf/web.xml中配置了常见文件的拓展名和MIMIE类型的对应关系
-+ 常见的MIME类型举例如下
++ MIME 类型, 可以理解为文档类型, 用户表示传递的数据是属于什么类型的文档
++ 浏览器可以根据 MIME 类型决定该用什么样的方式解析接收到的响应体数据
++ 可以这样理解: 前后端交互数据时, 告诉对方发给对方的是 html/css/js/图片/声音/视频/... ...
++ tomcat/conf/web.xml 中配置了常见文件的拓展名和 MIMIE 类型的对应关系
++ 常见的 MIME 类型举例如下
 
-| 文件拓展名                  | MIME类型               |
+| 文件拓展名                  | MIME 类型               |
 | --------------------------- | ---------------------- |
 | .html                       | text/html              |
 | .css                        | text/css               |
@@ -861,3 +861,196 @@ String url = contextPath + "/api/data";
 
 ## 请求转发和响应重定向
 
+> 请求转发和响应重定向是 web 应用中间接访问项目资源的两种手段, 也是 Servlet 控制页面跳转的两种手段
+
+### 请求转发
+
+#### 基本概念
+
+服务器内部将请求转发给另一个资源（Servlet、JSP 或 HTML），客户端仅发送一次请求。
+
+说人话就是 张三找李四借钱，李四没钱，李四帮忙找到王五借钱给张三。
+
+​	
+
+![image-20250715234107066](https://raw.githubusercontent.com/Planetesimals-2005/BlogImg/main/img/image-20250715234107066.png)
+
+#### 请求转发特点
+
++ 请求转发通过 `HttpServletRequest` 对象获取请求转发器 `RequestDispatcher` 实现
++ 请求转发是服务器内部的行为, 对客户端是屏蔽的
++ 客户端只发送了 `一次请求`, 客户端地址栏不变
++ 服务端只产生了 `一对请求和响应对象`, 这一对请求和响应对象会继续传递给下一个资源
++ 因为全程只有一个 `HttpServletRequset` 对象, 所以请求参数可以传递, 请求域中的数据也可以传递
++ 请求转发可以转发给其他 Servlet 动态资源, 也可以转发给一些静态资源以实现页面跳转
++ 请求转发可以转发给 WEB-INF 下受保护的资源
++ 请求转发不能转发到本项目以外的外部资源
+
+#### 请求转发测试代码
+
++ ServletA
+
+``` java
+@WebServlet("/servletA")
+public class ServletA extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //  获取请求转发器
+        //  转发给servlet  ok
+        RequestDispatcher  requestDispatcher = req.getRequestDispatcher("servletB");
+        //  转发给一个视图资源 ok
+        //RequestDispatcher requestDispatcher = req.getRequestDispatcher("welcome.html");
+        //  转发给WEB-INF下的资源  ok
+        //RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/views/view1.html");
+        //  转发给外部资源   no
+        //RequestDispatcher requestDispatcher = req.getRequestDispatcher("http://www.baidu.com");
+        //  获取请求参数
+        String username = req.getParameter("username");
+        System.out.println(username);
+        //  向请求域中添加数据
+        req.setAttribute("reqKey","requestMessage");
+        //  做出转发动作
+        requestDispatcher.forward(req,resp);
+    }
+}
+```
+
++ ServletB
+
+``` java
+@WebServlet("/servletB")
+public class ServletB extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取请求参数
+        String username = req.getParameter("username");
+        System.out.println(username);
+        // 获取请求域中的数据
+        String reqMessage = (String)req.getAttribute("reqKey");
+        System.out.println(reqMessage);
+        // 做出响应
+        resp.getWriter().write("servletB response");        
+    }
+}
+```
+
++ 打开浏览器, 输入以下 url 测试
+
+``` http
+http://localhost:8080/项目名/servletA?username=planetesimals
+```
+
+> 理想情况
+
+控制台输出:
+
+```java
+// ServletA输出
+planetesimals
+
+// ServletB输出
+planetesimals
+requestMessage
+
+```
+浏览器显示：
+```plaintext
+servletB response
+```
+
+### 响应重定向
+
+#### 基本概念
+
+服务器返回 302 状态码和新 URL，客户端收到后自动发起新请求。
+
+张三找李四借钱，李四没有，李四让张三自己去找王五借钱。
+
+![image-20250715235606592](https://raw.githubusercontent.com/Planetesimals-2005/BlogImg/main/img/image-20250715235606592.png)
+
+#### 响应重定向特点
+
++ 响应重定向通过 HttpServletResponse 对象的 sendRedirect 方法实现
++ 响应重定向是服务端通过 302 响应码和路径, 告诉客户端自己去找其他资源, 是在服务端提示下的, 客户端的行为
++ 客户端至少发送了两次请求, 客户端地址栏是要变化的
++ 服务端产生了多对请求和响应对象, 且请求和响应对象不会传递给下一个资源
++ 因为全程产生了多个 HttpServletRequset 对象, 所以请求参数不可以传递, 请求域中的数据也不可以传递
++ 重定向可以是其他 Servlet 动态资源, 也可以是一些静态资源以实现页面跳转
++ 重定向不可以到给 WEB-INF 下受保护的资源
++ 重定向可以到本项目以外的外部资源
+
+
+
+#### 响应重定向测试代码
+
++ ServletA
+
+``` java
+@WebServlet("/servletA")
+public class ServletA extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //  获取请求参数
+        String username = req.getParameter("username");
+        System.out.println(username);
+        //  向请求域中添加数据
+        req.setAttribute("reqKey","requestMessage");
+        //  响应重定向
+        // 重定向到servlet动态资源 OK
+        resp.sendRedirect("servletB");
+        // 重定向到视图静态资源 OK
+        //resp.sendRedirect("welcome.html");
+        // 重定向到WEB-INF下的资源 NO
+        //resp.sendRedirect("WEB-INF/views/view1");
+        // 重定向到外部资源
+        //resp.sendRedirect("http://www.baidu.com");
+    }
+}
+```
+
++ ServletB
+
+``` java
+@WebServlet("/servletB")
+public class ServletB extends HttpServlet {
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 获取请求参数
+        String username = req.getParameter("username");
+        System.out.println(username);
+        // 获取请求域中的数据
+        String reqMessage = (String)req.getAttribute("reqKey");
+        System.out.println(reqMessage);
+        // 做出响应
+        resp.getWriter().write("servletB response");
+
+    }
+}
+```
+
++ 打开浏览器, 输入以下 url 测试
+
+``` http
+http://localhost:8080/项目名字/servletA?username=planetesimals
+```
+
+> 预计结果
+
+**控制台输出**
+
+```java
+// ServletA输出
+planetesimals
+
+// ServletB输出
+null       // 无法获取原请求参数
+null       // 无法获取原请求域数据
+```
+
+**浏览器显示**
+
+```java
+servletB response
+```
+
+## web 乱码和路径问题
